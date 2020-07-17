@@ -10,23 +10,28 @@ for file in os.listdir(os.path.join(location, 'data')):
     filename = file.split('.')[0]
     data[filename] = file
 
-pprint(data)
+def list_datasets():
+    pprint(data)
 
-# print(os.listdir(location))
 
-# print(location)
-
-# for f in :
-#     print(f)
-
-# data = {
-#     'vdem':'V-Dem-CY-Full+Others-v10.csv'
-# }
-
-def load(dataset):
+def load(filename):
     """
     Loads one of the datasets used in DCSS.
     """
-    datapath = os.path.join(location, 'data', data[dataset])
+    datapath = os.path.join(location, 'data', data[filename])
     df = pd.read_csv(datapath, low_memory=False)
     return df
+
+def load_vdem():
+    """
+    Loads the full V-DEM 10 dataset.
+    """
+    dfs = []
+    for file in os.listdir(os.path.join(location, 'data')):
+        datapath = os.path.join(location, 'data', file)
+        df = pd.read_csv(datapath, low_memory=False)
+        dfs.append(df)
+    df = pd.concat(dfs)
+    return df
+    
+
