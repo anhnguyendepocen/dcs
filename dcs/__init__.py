@@ -2,13 +2,16 @@ import os
 import pandas as pd
 from pprint import pprint
 
-location = os.path.dirname(os.path.realpath(__file__))
-
 data = {}
 
-for file in os.listdir(os.path.join(location, 'data')):
-    filename = file.split('.')[0]
-    data[filename] = file
+file_list = [os.path.join(root, file) for root, dirs, files in os.walk(os.path.expanduser("dcs/data")) for file in files]
+
+for file_path in file_list:
+    file = file_path.split('.')[0]
+    filename = file.split('\\')[2]
+    data[filename] = file_path
+    
+
 
 def list_datasets():
     pprint(data)
@@ -18,17 +21,16 @@ def load(filename):
     """
     Loads one of the datasets used in DCSS.
     """
-    datapath = os.path.join(location, 'data', data[filename])
-    df = pd.read_csv(datapath, low_memory=False)
+    df = pd.read_csv(data[filename], low_memory=False)
     return df
 
-def load_vdem():
+def load_dataset(dataset):
     """
     Loads the full V-DEM 10 dataset.
     """
     dfs = []
-    for file in os.listdir(os.path.join(location, 'data')):
-        datapath = os.path.join(location, 'data', file)
+    for file in os.listdir(os.path.join('dcs/data/' + dataset)):
+        datapath = os.path.join('dcs/data/' + dataset, file)
         df = pd.read_csv(datapath, low_memory=False)
         dfs.append(df)
     df = pd.concat(dfs)
