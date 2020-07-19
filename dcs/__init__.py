@@ -8,7 +8,10 @@ file_list = [os.path.join(root, file) for root, dirs, files in os.walk(os.path.e
 
 for file_path in file_list:
     file = file_path.split('.')[0]
-    filename = file.split('\\')[2]
+    try:
+        filename = file.split('\\')[2]
+    except:
+        filname = file.split('/')[2]
     data[filename] = file_path
     
 
