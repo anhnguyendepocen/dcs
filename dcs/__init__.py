@@ -11,7 +11,7 @@ for file_path in file_list:
     try:
         filename = file.split('\\')[2]
     except:
-        filename = file.split('/')[2]
+        filename = file.split('/')[3]
     data[filename] = file_path
     
 
